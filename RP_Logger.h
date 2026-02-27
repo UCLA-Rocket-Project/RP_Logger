@@ -23,6 +23,12 @@ enum RpLoggerSubsys : uint16_t {
     CAN_BUS = (1 << 2),
     MUTEX = (1 << 3),
     SERIAL_CMD_TRANSPORT = (1 << 4),
+    CMD_HANDLER = (1 << 5),
+    STATE_MACHINE = (1 << 6),
+    SECONDARY_SENSORS = (1 << 7),
+    IMU = (1 << 9),
+    SD_CARD = (1 << 10),
+    ADC = (1 << 11),
     ALL = 65535
 };
 
