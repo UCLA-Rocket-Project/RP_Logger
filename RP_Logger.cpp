@@ -52,14 +52,20 @@ const char *rp_logger_subsys_to_string(RpLoggerSubsys subsys) {
         return "CMD_H";
     case STATE_MACHINE:
         return "SM";
+    case ADXL:
+        return "ADXL";
     case SECONDARY_SENSORS:
         return "SEC";
-    case IMU:
-        return "IMU";
+    case GLOBAL_STORE:
+        return "GLB_STR";
     case SD_CARD:
         return "SD";
     case ADC:
         return "ADC";
+    case RESET_HANDLER:
+        return "RST";
+    case TIME_SYNC:
+        return "SYNC";
     case ALL:
         return "ALL";
     default:

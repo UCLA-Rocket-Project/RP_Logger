@@ -25,10 +25,13 @@ enum RpLoggerSubsys : uint16_t {
     SERIAL_CMD_TRANSPORT = (1 << 4),
     CMD_HANDLER = (1 << 5),
     STATE_MACHINE = (1 << 6),
-    SECONDARY_SENSORS = (1 << 7),
-    IMU = (1 << 9),
+    ADXL = (1 << 7),
+    SECONDARY_SENSORS = (1 << 8),
+    GLOBAL_STORE = (1 << 9),
     SD_CARD = (1 << 10),
     ADC = (1 << 11),
+    RESET_HANDLER = (1 << 12),
+    TIME_SYNC = (1 << 13),
     ALL = 65535
 };
 
