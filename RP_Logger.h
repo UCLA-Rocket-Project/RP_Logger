@@ -51,9 +51,7 @@ void rp_logger_log_backend(
 // 3. The internal macro (Still includes the fast runtime filter for subsystems)
 #define RP_LOG_INTERNAL(level, subsys, fmt, ...)                                                   \
     do {                                                                                           \
-        if ((level) <= _rp_logger_log_level && ((subsys) & _rp_logger_subsys_mask) != 0) {         \
-            rp_logger_log_backend(level, subsys, __FILE__, __LINE__, fmt, ##__VA_ARGS__);          \
-        }                                                                                          \
+        rp_logger_log_backend(level, subsys, __FILE__, __LINE__, fmt, ##__VA_ARGS__);              \
     } while (0)
 
 #if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_MUST
