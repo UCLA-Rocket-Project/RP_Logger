@@ -2,10 +2,10 @@
 #include "freertos/idf_additions.h"
 #include <cstdio>
 
-RpLoggerLevel _rp_logger_log_level = RpLoggerLevel::TRACE;
+int _rp_logger_log_level = RP_LOGGER_TRACE;
 RpLoggerSubsys _rp_logger_subsys_mask = RpLoggerSubsys::ALL;
 
-void rp_logger_init(RpLoggerLevel level, RpLoggerSubsys subsys) {
+void rp_logger_init(int level, RpLoggerSubsys subsys) {
     if (!Serial) {
         Serial.begin(RP_LOGGER_SERIAL_BAUDRATE);
     }
@@ -21,15 +21,15 @@ static inline const char *path_to_filename(const char *path) {
     return slash ? slash + 1 : path;
 }
 
-static inline const char *rp_logger_level_to_string(RpLoggerLevel level) {
+static inline const char *rp_logger_level_to_string(int level) {
     switch (level) {
-    case MUST:
+    case RP_LOGGER_MUST:
         return "MUST";
-    case WARN:
+    case RP_LOGGER_WARN:
         return "WARN";
-    case INFO:
+    case RP_LOGGER_INFO:
         return "INFO";
-    case TRACE:
+    case RP_LOGGER_TRACE:
         return "TRACE";
     default:
         return "UNKNOWN";
@@ -56,7 +56,7 @@ const char *rp_logger_subsys_to_string(RpLoggerSubsys subsys) {
 }
 
 void rp_logger_log_backend(
-    RpLoggerLevel level, RpLoggerSubsys subsys, const char *file, int line, const char *fmt, ...
+    int level, RpLoggerSubsys subsys, const char *file, int line, const char *fmt, ...
 ) {
     if (level > _rp_logger_log_level || (subsys & _rp_logger_subsys_mask) == 0) {
         return;

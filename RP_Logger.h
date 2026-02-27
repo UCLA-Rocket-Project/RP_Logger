@@ -12,7 +12,11 @@
 #define RP_LOGGER_SERIAL_BAUDRATE    115200
 #define RP_LOGGER_PRINT_BUFFER_SIZE  512
 
-enum RpLoggerLevel { MUST = 0, WARN = 1, INFO = 2, TRACE = 3 };
+#define RP_LOGGER_MUST               0
+#define RP_LOGGER_WARN               1
+#define RP_LOGGER_INFO               2
+#define RP_LOGGER_TRACE              3
+
 enum RpLoggerSubsys : uint16_t {
     INIT = (1),
     RADIO_CMD_TRANSPORT = (1 << 1),
@@ -22,32 +26,61 @@ enum RpLoggerSubsys : uint16_t {
     ALL = 65535
 };
 
-extern RpLoggerLevel _rp_logger_log_level;
+extern int _rp_logger_log_level;
 extern RpLoggerSubsys _rp_logger_subsys_mask;
 
-void rp_logger_init(
-    RpLoggerLevel level = RpLoggerLevel::TRACE, RpLoggerSubsys subsys = RpLoggerSubsys::ALL
-);
+void rp_logger_init(int level = RP_LOGGER_TRACE, RpLoggerSubsys subsys = RpLoggerSubsys::ALL);
 
 void rp_logger_log_backend(
-    RpLoggerLevel level, RpLoggerSubsys subsys, const char *file, int line, const char *fmt, ...
+    int level, RpLoggerSubsys subsys, const char *file, int line, const char *fmt, ...
 );
 
+#ifndef RP_LOGGER_COMPILE_LEVEL
+    #define RP_LOGGER_COMPILE_LEVEL RP_LOGGER_TRACE
+#endif
+
+// 3. The internal macro (Still includes the fast runtime filter for subsystems)
 #define RP_LOG_INTERNAL(level, subsys, fmt, ...)                                                   \
     do {                                                                                           \
-        rp_logger_log_backend(level, subsys, __FILE__, __LINE__, fmt, ##__VA_ARGS__);              \
+        if ((level) <= _rp_logger_log_level && ((subsys) & _rp_logger_subsys_mask) != 0) {         \
+            rp_logger_log_backend(level, subsys, __FILE__, __LINE__, fmt, ##__VA_ARGS__);          \
+        }                                                                                          \
     } while (0)
 
-#define RP_LOG_MUST(subsys, fmt, ...)                                                              \
-    RP_LOG_INTERNAL(RpLoggerLevel::MUST, subsys, fmt, ##__VA_ARGS__)
+#if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_MUST
+    #define RP_LOG_MUST(subsys, fmt, ...)                                                          \
+        RP_LOG_INTERNAL(RP_LOGGER_MUST, subsys, fmt, ##__VA_ARGS__)
+#else
+    #define RP_LOG_MUST(subsys, fmt, ...)                                                          \
+        do {                                                                                       \
+        } while (0)
+#endif
 
-#define RP_LOG_WARN(subsys, fmt, ...)                                                              \
-    RP_LOG_INTERNAL(RpLoggerLevel::WARN, subsys, fmt, ##__VA_ARGS__)
+#if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_WARN
+    #define RP_LOG_WARN(subsys, fmt, ...)                                                          \
+        RP_LOG_INTERNAL(RP_LOGGER_WARN, subsys, fmt, ##__VA_ARGS__)
+#else
+    #define RP_LOG_WARN(subsys, fmt, ...)                                                          \
+        do {                                                                                       \
+        } while (0)
+#endif
 
-#define RP_LOG_INFO(subsys, fmt, ...)                                                              \
-    RP_LOG_INTERNAL(RpLoggerLevel::INFO, subsys, fmt, ##__VA_ARGS__)
+#if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_INFO
+    #define RP_LOG_INFO(subsys, fmt, ...)                                                          \
+        RP_LOG_INTERNAL(RP_LOGGER_INFO, subsys, fmt, ##__VA_ARGS__)
+#else
+    #define RP_LOG_INFO(subsys, fmt, ...)                                                          \
+        do {                                                                                       \
+        } while (0)
+#endif
 
-#define RP_LOG_TRACE(subsys, fmt, ...)                                                             \
-    RP_LOG_INTERNAL(RpLoggerLevel::TRACE, subsys, fmt, ##__VA_ARGS__)
+#if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_TRACE
+    #define RP_LOG_TRACE(subsys, fmt, ...)                                                         \
+        RP_LOG_INTERNAL(RP_LOGGER_TRACE, subsys, fmt, ##__VA_ARGS__)
+#else
+    #define RP_LOG_TRACE(subsys, fmt, ...)                                                         \
+        do {                                                                                       \
+        } while (0)
+#endif
 
 #endif
