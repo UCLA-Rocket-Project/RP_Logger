@@ -36,9 +36,9 @@ enum RpLoggerSubsys : uint16_t {
 };
 
 extern int _rp_logger_log_level;
-extern RpLoggerSubsys _rp_logger_subsys_mask;
+extern int _rp_logger_subsys_mask;
 
-void rp_logger_init(int level = RP_LOGGER_TRACE, RpLoggerSubsys subsys = RpLoggerSubsys::ALL);
+void rp_logger_init(int level = RP_LOGGER_TRACE, int subsystems_to_log = RpLoggerSubsys::ALL);
 
 void rp_logger_log_backend(
     int level, RpLoggerSubsys subsys, const char *file, int line, const char *fmt, ...

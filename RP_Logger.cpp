@@ -3,15 +3,15 @@
 #include <cstdio>
 
 int _rp_logger_log_level = RP_LOGGER_TRACE;
-RpLoggerSubsys _rp_logger_subsys_mask = RpLoggerSubsys::ALL;
+int _rp_logger_subsys_mask = RpLoggerSubsys::ALL;
 
-void rp_logger_init(int level, RpLoggerSubsys subsys) {
+void rp_logger_init(int level, int subsystems_to_log) {
     if (!Serial) {
         Serial.begin(RP_LOGGER_SERIAL_BAUDRATE);
     }
 
     _rp_logger_log_level = level;
-    _rp_logger_subsys_mask = subsys;
+    _rp_logger_subsys_mask = subsystems_to_log;
 }
 
 static inline const char *path_to_filename(const char *path) {

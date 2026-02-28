@@ -26,4 +26,4 @@ RP_LOG_MUST(RESET_HANDLER, "Resetting all the boards");
 ``` 
 
 ### Details
-This uses esp-idf's `puts` function which is thread free, so your logs appear nice and orderly
+This uses esp-idf's `puts` function which is thread safe, so your logs appear nice and orderly
