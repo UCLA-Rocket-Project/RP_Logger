@@ -54,7 +54,7 @@ void rp_logger_log_backend(
         rp_logger_log_backend(level, subsys, __FILE__, __LINE__, fmt, ##__VA_ARGS__);              \
     } while (0)
 
-#if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_MUST
+#if RP_LOGGER_COMPILE_LEVEL >= RP_LOGGER_MUST
     #define RP_LOG_MUST(subsys, fmt, ...)                                                          \
         RP_LOG_INTERNAL(RP_LOGGER_MUST, subsys, fmt, ##__VA_ARGS__)
 #else
@@ -63,7 +63,7 @@ void rp_logger_log_backend(
         } while (0)
 #endif
 
-#if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_WARN
+#if RP_LOGGER_COMPILE_LEVEL >= RP_LOGGER_WARN
     #define RP_LOG_WARN(subsys, fmt, ...)                                                          \
         RP_LOG_INTERNAL(RP_LOGGER_WARN, subsys, fmt, ##__VA_ARGS__)
 #else
@@ -72,7 +72,7 @@ void rp_logger_log_backend(
         } while (0)
 #endif
 
-#if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_INFO
+#if RP_LOGGER_COMPILE_LEVEL >= RP_LOGGER_INFO
     #define RP_LOG_INFO(subsys, fmt, ...)                                                          \
         RP_LOG_INTERNAL(RP_LOGGER_INFO, subsys, fmt, ##__VA_ARGS__)
 #else
@@ -81,7 +81,7 @@ void rp_logger_log_backend(
         } while (0)
 #endif
 
-#if RP_LOGGER_COMPILE_LEVEL >= RP_LOG_COMPILE_TRACE
+#if RP_LOGGER_COMPILE_LEVEL >= RP_LOGGER_TRACE
     #define RP_LOG_TRACE(subsys, fmt, ...)                                                         \
         RP_LOG_INTERNAL(RP_LOGGER_TRACE, subsys, fmt, ##__VA_ARGS__)
 #else
