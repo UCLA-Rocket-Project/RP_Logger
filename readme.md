@@ -6,7 +6,7 @@ Log with different levels and subsystems
 ### Setup
 1. Define, as `RP_LOGGER_COMPILE_LEVEL`, the minmum log level that you want to build for. This could also be a build flag
 ```C++
-#define RP_LOGGER_LEVEL RP_LOGGER_TRACE
+#define RP_LOGGER_COMPILE_LEVEL RP_LOGGER_TRACE
 ```
 
 2. Instantiate the logger, giving the maximum log level that you want to view and the subsystems that you want to see logs for
